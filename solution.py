@@ -17,6 +17,9 @@ def webServer(port=13331):
 
            f = open(filename[1:])
            outputdata = f.read()
+           if not outputdata:
+               # file transmitting is done
+               break
            f.close()
 
            #Send one HTTP header line into socket
@@ -35,6 +38,7 @@ def webServer(port=13331):
            connectionSocket.send(response.encode())
            connectionSocket.close()
        except BrokenPipeError:
+           break
            connectionSocket.close()
 
 
