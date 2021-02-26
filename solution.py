@@ -4,6 +4,7 @@ def smtp_client(port, mailserver):
    endmsg = "\r\n.\r\n"
    mailserver = (mailserver, port)
 
+
    # Create socket called clientSocket and establish a TCP connection with mailserver and port
    # print("Starting...." + str(mailserver))
    clientSocket = socket(AF_INET, SOCK_STREAM)
