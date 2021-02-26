@@ -10,7 +10,6 @@ def smtp_client(port, mailserver):
    clientSocket.connect(mailserver)
 
    recv = clientSocket.recv(1024).decode()
-
    # print(" Response from connection :" + recv)
    if recv[:3] != '220':
        # print('220 reply not received from server.')
