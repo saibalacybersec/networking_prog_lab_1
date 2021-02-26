@@ -3,8 +3,6 @@ def smtp_client(port, mailserver):
    msg = "\r\n My message"
    endmsg = "\r\n.\r\n"
    mailserver = (mailserver, port)
-   
-
 
    # Create socket called clientSocket and establish a TCP connection with mailserver and port
    # print("Starting...." + str(mailserver))
