@@ -4,7 +4,7 @@ import sys # In order to terminate the program
 
 #python -m smtpd -c DebuggingServer -n 127.0.0.1:1025
 def smtp_client(port='1025', mailserver='127.0.0.1'):
-   try:
+   # try:
          mailserver = (mailserver, port)
          msg = "\r\n My message"
          endmsg = "\r\n.\r\n"
@@ -29,8 +29,8 @@ def smtp_client(port='1025', mailserver='127.0.0.1'):
                print('250 reply not received from server.')
 
          clientSocket.close()
-   except:
-         clientSocket.close()
+   # except:
+   #       clientSocket.close()
 
 if __name__ == '__main__':
    # smtp_client(25, 'smtp.nyu.edu')
