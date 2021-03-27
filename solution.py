@@ -9,7 +9,7 @@ import binascii
 
 ICMP_ECHO_REQUEST = 8
 
-
+#starting
 
 def checksum(string):
    csum = 0
