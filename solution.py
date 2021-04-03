@@ -9,6 +9,11 @@ import binascii
 
 ICMP_ECHO_REQUEST = 8
 
+packet_min = 0
+packet_avg = 0
+packet_max = 0
+stdev_var = 0
+
 #starting
 # test 2
 
@@ -40,8 +45,6 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
    timeLeft = timeout
    rtt_cnt = 0
    rtt_sum = 0
-   rtt_min = 0
-   rtt_max = 0
 
    while 1:
        startedSelect = time.time()
@@ -63,27 +66,16 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
        # print(unpacked_data)
        type, code, check_sum, packetid, seq = struct.unpack(struct_format, icmpheader)
        # print(type, code, check_sum, packetid, "icmp_seq =", seq)
-       send_time = struct.unpack('d', recPacket[28:])
-       # print(" time received"+ str(timeReceived)  + " send_time " +str(send_time[0]))
-       rtt = (timeReceived - send_time[0])
+       packet = struct.unpack('d', recPacket[28:])
+       ip_header = struct.unpack('!BBHHHBBH4s4s', recPacket[:20])
+       length = len(recPacket) - 20
+       ttl = ip_header[5]
+       rtt = (timeReceived - packet[0])
        rtt_cnt += 1
        rtt_sum += rtt
-       rtt_min = min(rtt_min, rtt)
-       rtt_max = max(rtt_max, rtt)
-       # rtt_avg = (rtt)
-       # rtt_stddev = stdev(rtt)
-       # print ( "rtt " + str(rtt)  + " rtt_cnt " + str(rtt_cnt) + "rtt_sum" + str(rtt_sum) + "rtt_min" + str(rtt_min) + "rtt_max" + str(rtt_max)  )
-       ip_header = struct.unpack('!BBHHHBBH4s4s', recPacket[:20])
-       ttl = ip_header[5]
-       # saddr = mySocket.inet_ntoa(ip_header[8])
-       length = len(recPacket) - 20
-       #
-       # print( " bytes " + str(length)+ "saddr "+ str(destAddr) + "seq " + str(seq) + "ttl " + str(ttl) + "rtt" + str(rtt))
        return 'Reply from {}: bytes={} time={:.3f} ms ttl={} '.format( destAddr, length, rtt,ttl)
-       # return packet
        # Fill in end
 
-       # Fill in end
        timeLeft = timeLeft - howLongInSelect
        if timeLeft <= 0:
            return "time left  Request timed out."
@@ -136,9 +128,10 @@ def doOnePing(destAddr, timeout):
 def ping(host, timeout=1):
    # timeout=1 means: If one second goes by without a reply from the server,      # the client assumes that either the client's ping or the server's pong is lost
    dest = gethostbyname(host)
-   print("Pinging " + dest + " using Python:")
-   print("")
+   # print("Pinging " + dest + " using Python:")
+   # print("")
    # Calculate vars values and return them
+
    # vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
    # Send ping requests to a server separated by approximately one second
    for i in range(0,4):
