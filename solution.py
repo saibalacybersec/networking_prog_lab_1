@@ -5,10 +5,12 @@ import struct
 import time
 import select
 import binascii
+import statistics
 # Should use stdev
 
 ICMP_ECHO_REQUEST = 8
 
+rtt_array = []
 packet_min = 0
 packet_avg = 0
 packet_max = 0
@@ -73,7 +75,9 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
        rtt = (timeReceived - packet[0])
        rtt_cnt += 1
        rtt_sum += rtt
-       return 'Reply from {}: bytes={} time={:.3f} ms ttl={} '.format( destAddr, length, rtt,ttl)
+       # rtt_array[rtt_cnt] = rtt
+       # print(" rtt_array " + str(rtt_cnt) )
+       return 'Reply from {}: bytes={} time={:.7f} ms ttl={} '.format(destAddr, length, rtt,ttl)
        # Fill in end
 
        timeLeft = timeLeft - howLongInSelect
@@ -130,17 +134,33 @@ def ping(host, timeout=1):
    dest = gethostbyname(host)
    # print("Pinging " + dest + " using Python:")
    # print("")
-   # Calculate vars values and return them
 
-   # vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
-   vars = ['1.1','2.1','2.3','4.1']
-
+   packet_array = list()
+   # packet_min = 0.000000
+   # packet_max =0.000000
+   packet_sum = 0.000000
+   stdev_var = 0.000000
    # Send ping requests to a server separated by approximately one second
    for i in range(0,4):
        delay = doOnePing(dest, timeout)
+       # print("delay" + str(delay.ttl))
        print(delay)
+       start = delay.find('time') + 5
+       end = delay.find(' ms', start)
+       packet_array.append(float(delay[start:end]))
+       # packet_min = min(packet_min, float(delay[start:end]))
+       # packet_max = max(packet_max, float(delay[start:end]))
+       packet_sum += float(delay[start:end])
        time.sleep(1)  # one second
+   # Calculate vars values and return them
+   packet_min = min(packet_array)
+   packet_max = max(packet_array)
+   packet_avg = (packet_sum/len(packet_array))
+   stdev_var = statistics.stdev(packet_array,None)
 
+   vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev_var, 2))]
+   print (" vars " + str(vars))
+   # print("packet_min " + str(packet_min) + "packet_max " + str(packet_max) + "packet_sum" + str(packet_sum)+ " packet_avg" + str(packet_avg) + " stddev " + str(stdev_var))
    return vars
 
 if __name__ == '__main__':
