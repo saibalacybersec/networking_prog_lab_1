@@ -158,8 +158,8 @@ def ping(host, timeout=1):
    packet_max = max(packet_array)
    packet_avg = (packet_sum/len(packet_array))
    stdev_var = statistics.stdev(packet_array,None)
-
    vars = [round(packet_min, 3), round(packet_avg, 3), round(packet_max, 3),round(stdev_var, 3)]
+
    # print (" vars " + str(vars))
    # print("packet_min " + str(packet_min) + "packet_max " + str(packet_max) + "packet_sum" + str(packet_sum)+ " packet_avg" + str(packet_avg) + " stddev " + str(stdev_var))
    return vars
