@@ -145,7 +145,7 @@ def ping(host, timeout=1):
        delay = doOnePing(dest, timeout)
        # print("delay" + str(delay.ttl))
        # print(delay)
-       if delay!="Request timed out":
+       if delay != "Request timed out":
            start = delay.find('time') + 5
            end = delay.find(' ms', start)
            delay_rtt = float(delay[start:end])
@@ -159,7 +159,7 @@ def ping(host, timeout=1):
    packet_max = max(packet_array)
    packet_avg = (packet_sum/len(packet_array))
    stdev_var = statistics.stdev(packet_array)
-   vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev_var, 2))]
+   vars = [round(packet_min, 2), round(packet_avg, 2), round(packet_max, 2),round(stdev_var, 2)]
 
    # print (" vars " + str(vars))
    # print("packet_min " + str(packet_min) + "packet_max " + str(packet_max) + "packet_sum" + str(packet_sum)+ " packet_avg" + str(packet_avg) + " stddev " + str(stdev_var))
