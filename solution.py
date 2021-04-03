@@ -144,7 +144,7 @@ def ping(host, timeout=1):
    for i in range(0,4):
        delay = doOnePing(dest, timeout)
        # print("delay" + str(delay.ttl))
-       print(delay)
+       # print(delay)
        if delay!="Request timed out":
            start = delay.find('time') + 5
            end = delay.find(' ms', start)
