@@ -58,26 +58,28 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
        timeReceived = time.time()
        recPacket, addr = mySocket.recvfrom(1024)
-       # print("recPacket" + str(recPacket))
+
        # Fill in start
 
        # Fetch the ICMP header from the IP packet
        icmpheader = recPacket[20:28]
+
+       rawTTL = struct.unpack("s", bytes([recPacket[8]]))[0]
+       # binascii -- Convert between binary and ASCII
+       TTL = int(binascii.hexlify(rawTTL), 16)
+
        struct_format = "bbHHh"
        unpacked_data = struct.unpack(struct_format, icmpheader)
-       # print(unpacked_data)
        type, code, check_sum, packetid, seq = struct.unpack(struct_format, icmpheader)
+
        # print(type, code, check_sum, packetid, "icmp_seq =", seq)
        packet = struct.unpack('d', recPacket[28:])
        ip_header = struct.unpack('!BBHHHBBH4s4s', recPacket[:20])
-       length = len(recPacket) - 20
-       ttl = ip_header[5]
-       rtt = (timeReceived - packet[0])
-       rtt_cnt += 1
-       rtt_sum += rtt
-       # rtt_array[rtt_cnt] = rtt
-       # print(" rtt_array " + str(rtt_cnt) )
-       return 'Reply from {}: bytes={} time={:.7f} ms ttl={} '.format(destAddr, length, rtt,ttl)
+
+       if packetid == ID:
+           byte = struct.calcsize("d")
+           timeSent = struct.unpack("d", recPacket[28:28 + byte])[0]
+           return "Reply from %s: bytes=%d time=%f5ms TTL=%d" % ( destAddr, len(recPacket), (timeReceived - timeSent) * 1000, TTL)
        # Fill in end
 
        timeLeft = timeLeft - howLongInSelect
@@ -147,11 +149,10 @@ def ping(host, timeout=1):
        # print(delay)
        if delay != "Request timed out":
            start = delay.find('time') + 5
-           end = delay.find(' ms', start)
+           end = delay.find('ms', start)
            delay_rtt = float(delay[start:end])
+           # print("delay_rtt " + str(delay_rtt))
            packet_array.append(delay_rtt)
-           # packet_min = min(packet_min, float(delay[start:end]))
-           # packet_max = max(packet_max, float(delay[start:end]))
            packet_sum += delay_rtt
        time.sleep(1)  # one second
    # Calculate vars values and return them
@@ -159,7 +160,7 @@ def ping(host, timeout=1):
    packet_max = max(packet_array)
    packet_avg = (packet_sum/len(packet_array))
    stdev_var = statistics.stdev(packet_array)
-   vars = [round(packet_min, 3), round(packet_avg, 3), round(packet_max, 3),round(stdev_var, 3)]
+   vars = [round(packet_min, 2), round(packet_avg, 2), round(packet_max, 2),round(stdev_var, 2)]
 
    # print (" vars " + str(vars))
    # print("packet_min " + str(packet_min) + "packet_max " + str(packet_max) + "packet_sum" + str(packet_sum)+ " packet_avg" + str(packet_avg) + " stddev " + str(stdev_var))
