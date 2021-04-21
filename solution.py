@@ -208,7 +208,7 @@ def get_route(hostname):
                         tracelist2.append(tracelist1)
                         tracelist1 = []
                     # Fill in end
-
+                    return tracelist2
                 else:
                 # Fill in start
                 #     print("overall exception")
@@ -223,8 +223,9 @@ def get_route(hostname):
                 mySocket.close()
 
     # print(str(tracelist2))
-    return tracelist2
+
 
 
 # if __name__ == '__main__':
-#     get_route("nyu.edu")
+#     ret_str = get_route("nyu.edu")
+#     print(" output " + str(ret_str))
