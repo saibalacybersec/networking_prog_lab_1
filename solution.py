@@ -115,13 +115,13 @@ def get_route(hostname):
                 timeReceived = time.time()
                 timeLeft = timeLeft - howLongInSelect
                 if timeLeft <= 0:
-                    # tracelist1.append(" * * * Request timed out.")
+                    tracelist1.append(" * * * Request timed out.")
                     # Fill in start
                     # You should add the list above to your all traces list
-                    hop_number = str(ttl)
-                    tracelist1.append(hop_number)
-                    tracelist1.append('*')
-                    tracelist1.append("Request timed out")
+                    # hop_number = str(ttl)
+                    # tracelist1.append(hop_number)
+                    # tracelist1.append('*')
+                    # tracelist1.append("Request timed out")
                     tracelist2.append(tracelist1)
                     tracelist1 = []
                     # Fill in end
@@ -160,6 +160,13 @@ def get_route(hostname):
                     rtt = (timeReceived - t) * 1000
                     # print( " Inside types 11")
 
+                    # print(types, code, check_sum, packetid, "icmp_seq =", seq, hostname, addr[0], ttl, rtt)
+                    tracelist1.append(str(ttl))
+                    tracelist1.append(str(round(rtt, 2)) + 'ms')
+                    tracelist1.append(str(addr[0]))
+                    tracelist1.append(gethostbyaddr(addr[0])[0])
+                    tracelist2.append(tracelist1)
+                    tracelist1 = []
                     # Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
@@ -210,14 +217,13 @@ def get_route(hostname):
                     tracelist1 = []
                 # If there is an exception/error to your if statements, you should append that to your list here
                 # Fill in end
-                tracelist1= []
-                print(tracelist2)
-                return tracelist2
-                # tracelist2 = []
                 break
             finally:
+
                 mySocket.close()
 
+    # print(str(tracelist2))
+    return str(tracelist2)
 
 
 if __name__ == '__main__':
