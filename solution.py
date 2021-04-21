@@ -142,13 +142,12 @@ def get_route(hostname):
                 # # Fill in end
                 except herror:  # if the host does not provide a hostname
                 # Fill in start
-                    rtt = (timeReceived - t) * 1000
+                #     rtt = (timeReceived - t) * 1000
                     tracelist1.append(str(ttl))
-                    tracelist1.append(str(round(rtt,2))+'ms')
+                    tracelist1.append('*')
                     tracelist1.append("hostname not returnable")
-
-                    tracelist1.append(ipaddr)
-                    tracelist1.append(hostname)
+                    # tracelist1.append(ipaddr)
+                    # tracelist1.append(hostname)
                     tracelist2.append(tracelist1)
                     tracelist1 = []
                 # Fill in end
