@@ -105,7 +105,8 @@ def get_route(hostname):
                     # You should add the list above to your all traces list
                     hop_number = str(ttl)
                     tracelist1.append(hop_number)
-                    tracelist1.append("* * * Request timed out.")
+                    tracelist1.append('*')
+                    tracelist1.append("Request timed out")
                     tracelist2.append(tracelist1)
                     tracelist1 = []
                     break
@@ -119,7 +120,8 @@ def get_route(hostname):
                     # You should add the list above to your all traces list
                     hop_number = str(ttl)
                     tracelist1.append(hop_number)
-                    tracelist1.append("* * * Request timed out.")
+                    tracelist1.append('*')
+                    tracelist1.append("Request timed out")
                     tracelist2.append(tracelist1)
                     tracelist1 = []
                     # Fill in end
@@ -209,7 +211,7 @@ def get_route(hostname):
                 # If there is an exception/error to your if statements, you should append that to your list here
                 # Fill in end
                 tracelist1= []
-                # print(tracelist2)
+                print(tracelist2)
                 return tracelist2
                 # tracelist2 = []
                 break
