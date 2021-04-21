@@ -223,8 +223,8 @@ def get_route(hostname):
                 mySocket.close()
 
     # print(str(tracelist2))
-    return str(tracelist2)
+    return tracelist2
 
 
-if __name__ == '__main__':
-    get_route("nyu.edu")
+# if __name__ == '__main__':
+#     get_route("nyu.edu")
