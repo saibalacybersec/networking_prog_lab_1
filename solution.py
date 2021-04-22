@@ -140,7 +140,8 @@ def get_route(hostname):
                 #Fill in end
                 rtt = str(round((timeReceived - t) * 1000, 2)) + 'ms'
                 ipaddr = addr[0]
-                combo = "Types : " + str(types) + "'" + str(ttl) + "'"+ "," +"'"+ str(rtt) + "'"+ "," +"'"+ str(ipaddr) + "'"+ "," +"'"+ str(host_name) + "'"
+                # combo = "Types : " + str(types) + "'" + str(ttl) + "'"+ "," +"'"+ str(rtt) + "'"+ "," +"'"+ str(ipaddr) + "'"+ "," +"'"+ str(host_name) + "'"
+                # tracelist1 = [str(types) ,str(rtt) ,str(ipaddr),str(host_name) ]
                 # print(" combo " + str(combo))
                 # types = 3
                 if types == 11:
@@ -149,14 +150,16 @@ def get_route(hostname):
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     # Fill in start
                     # You should add your responses to your lists here
-                    tracelist1.append(combo)
+                    # tracelist1.append(combo)
+                    tracelist1 = [str(ttl), str(rtt), str(ipaddr), str(host_name)]
                     tracelist2.append(tracelist1)
                     tracelist1 = []
                     # Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    tracelist1.append(combo)
+                    # tracelist1.append(combo)
+                    tracelist1 = [str(ttl), str(rtt), str(ipaddr), str(host_name)]
                     tracelist2.append(tracelist1)
                     tracelist1 = []
                     # Fill in start
@@ -172,17 +175,18 @@ def get_route(hostname):
                     # rtt = (timeReceived - timeSent) * 1000
                     print( " destAddr : " + str(destAddr) + "ipaddr" + str(ipaddr))
                     if destAddr == ipaddr:
-                        tracelist1.append(combo)
+                        # tracelist1.append(combo)
+                        tracelist1 = [str(ttl), str(rtt), str(ipaddr), str(host_name)]
                         tracelist2.append(tracelist1)
                         tracelist1 = []
-                    else:
+                    # else:
                         # tracelist1.append(ttl)
                         # tracelist1.append(rtt)
                         # tracelist1.append(host_name)
                         # tracelist1.append(ipaddr)
-                        tracelist1.append(combo)
-                        tracelist2.append(tracelist1)
-                        tracelist1 = []
+                        # tracelist1.append(combo)
+                        # tracelist2.append(tracelist1)
+                        # tracelist1 = []
                     # Fill in end
 
                 else:
