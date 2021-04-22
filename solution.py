@@ -140,7 +140,7 @@ def get_route(hostname):
                 #Fill in end
                 rtt = str(round((timeReceived - t) * 1000, 2)) + 'ms'
                 ipaddr = addr[0]
-                combo = "'" + str(ttl) + "'"+ "," +"'"+ str(rtt) + "'"+ "," +"'"+ str(host_name) + "'"+ "," +"'"+ str(ipaddr) + "'"
+                combo = "'" + str(ttl) + "'"+ "," +"'"+ str(rtt) + "'"+ "," +"'"+ str(ipaddr) + "'"+ "," +"'"+ str(host_name) + "'"
                 # types = 3
                 if types == 11:
 
@@ -210,9 +210,10 @@ def get_route(hostname):
 
             finally:
                 mySocket.close()
+    print(str(tracelist2))
     return tracelist2
     # print(str(tracelist2))
 
-# if __name__ == '__main__':
-#     ret_str = get_route("www.google.com")
-#     print(" output " + str(ret_str))
+if __name__ == '__main__':
+    ret_str = get_route("www.google.com")
+    # print(" output " + str(ret_str))
