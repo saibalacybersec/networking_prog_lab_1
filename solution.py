@@ -100,13 +100,9 @@ def get_route(hostname):
                 whatReady = select.select([mySocket], [], [], timeLeft)
                 howLongInSelect = (time.time() - startedSelect)
                 if whatReady[0] == []:  # Timeout
-                    # tracelist1.append("* * * Request timed out.")
+                    tracelist1.append("* * * Request timed out.")
                     # Fill in start
                     # You should add the list above to your all traces list
-                    hop_number = str(ttl)
-                    tracelist1.append(hop_number)
-                    tracelist1.append('*')
-                    tracelist1.append("Request timed out")
                     tracelist2.append(tracelist1)
                     tracelist1 = []
                     break
@@ -117,11 +113,6 @@ def get_route(hostname):
                 if timeLeft <= 0:
                     tracelist1.append(" * * * Request timed out.")
                     # Fill in start
-                    # You should add the list above to your all traces list
-                    # hop_number = str(ttl)
-                    # tracelist1.append(hop_number)
-                    # tracelist1.append('*')
-                    # tracelist1.append("Request timed out")
                     tracelist2.append(tracelist1)
                     tracelist1 = []
                     # Fill in end
@@ -136,53 +127,43 @@ def get_route(hostname):
                 unpacked_data = struct.unpack(struct_format, icmpheader)
                 types, code, check_sum, packetid, seq = struct.unpack(struct_format, icmpheader)
                 # Fill in end
+                rtt = str(round((timeReceived - t) * 1000,2)) + 'ms'
+
                 try:  # try to fetch the hostname
                 # Fill in start
-                    ipaddr = gethostbyaddr(addr[0])
+                    ipaddr = gethostbyaddr(addr[0])[2][0]
+                    host_name = gethostbyaddr(addr[0])[0]
                 # # Fill in end
                 except herror:  # if the host does not provide a hostname
                 # Fill in start
-                #     rtt = (timeReceived - t) * 1000
-                    tracelist1.append(str(ttl))
-                    tracelist1.append('*')
-                    tracelist1.append("hostname not returnable")
-                    # tracelist1.append(ipaddr)
-                    # tracelist1.append(hostname)
-                    tracelist2.append(tracelist1)
-                    tracelist1 = []
-                # Fill in end
+                    host_name = "hostname not returnable"
+                    ipaddr =""
+                #Fill in end
 
                 if types == 11:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     # Fill in start
                     # You should add your responses to your lists here
-                    rtt = (timeReceived - t) * 1000
-                    # print( " Inside types 11")
-
-                    # print(types, code, check_sum, packetid, "icmp_seq =", seq, hostname, addr[0], ttl, rtt)
-                    tracelist1.append(str(ttl))
-                    tracelist1.append(str(round(rtt, 2)) + 'ms')
-                    tracelist1.append(str(addr[0]))
-                    tracelist1.append(gethostbyaddr(addr[0])[0])
-                    tracelist2.append(tracelist1)
+                    tracelist1.add(ttl)
+                    tracelist1.add(rtt)
+                    tracelist1.add(host_name)
+                    tracelist1.add(ipaddr)
+                    tracelist2.add(tracelist1)
                     tracelist1 = []
                     # Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-
+                    tracelist1.add(ttl)
+                    tracelist1.add(rtt)
+                    tracelist1.add(host_name)
+                    tracelist1.add(ipaddr)
+                    tracelist2.add(tracelist1)
+                    tracelist1 = []
                     # Fill in start
                     # You should add your responses to your lists here
-                    # print(" Inside types 3")
-                    rtt = (timeReceived - t) * 1000
-                    # print(types, code, check_sum, packetid, "icmp_seq =", seq, hostname, addr[0], ttl, rtt)
-                    tracelist1.append(str(ttl))
-                    tracelist1.append(str(round(rtt, 2)) + 'ms')
-                    tracelist1.append(str(addr[0]))
-                    tracelist1.append(gethostbyaddr(addr[0])[0])
-                    tracelist2.append(tracelist1)
-                    tracelist1 = []
+
                     # Fill in end
                 elif types == 0:
                     bytes = struct.calcsize("d")
@@ -190,23 +171,23 @@ def get_route(hostname):
                     # Fill in start
                     # You should add your responses to your lists here and return your list if your destination IP is met
                     # print(" Inside types 0")
-                    rtt = (timeReceived - timeSent) * 1000
-                    if destAddr == addr[0]:
-                        # print(types, code, check_sum, packetid, "icmp_seq =", seq, hostname, addr[0], ttl, rtt)
-                        tracelist1.append(str(ttl))
-                        tracelist1.append(str(round(rtt, 2)) + 'ms')
-                        tracelist1.append(str(addr[0]))
-                        tracelist1.append(gethostbyaddr(addr[0])[0])
+                    # rtt = (timeReceived - timeSent) * 1000
+                    if destAddr == host_name:
+                        tracelist1.append(ttl)
+                        tracelist1.append(rtt)
+                        tracelist1.append(host_name)
+                        tracelist1.append(ipaddr)
                         tracelist2.append(tracelist1)
                         tracelist1 = []
                     else:
-                        # print(" Not matched")
-                        tracelist1.append(str(ttl))
-                        tracelist1.append(str(round(rtt, 2)) + 'ms')
-                        tracelist1.append(str(addr[0]))
-                        tracelist1.append(gethostbyaddr(addr[0])[0])
+                        # print( " else ")
+                        tracelist1.append(ttl)
+                        tracelist1.append(rtt)
+                        tracelist1.append(host_name)
+                        tracelist1.append(ipaddr)
                         tracelist2.append(tracelist1)
                         tracelist1 = []
+
                     # Fill in end
                     return tracelist2
                 else:
