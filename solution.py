@@ -130,7 +130,7 @@ def get_route(hostname):
 
                 try:  # try to fetch the hostname
                 # Fill in start
-                    host_name = gethostbyaddr(addr[0])
+                    host_name = gethostbyaddr(addr[0])[0]
                     # print( "ipaddr" + str(addr[0]))
                 # # Fill in end
                 except herror:  # if the host does not provide a hostname
@@ -140,7 +140,7 @@ def get_route(hostname):
                 #Fill in end
                 rtt = str(round((timeReceived - t) * 1000, 2)) + 'ms'
                 ipaddr = addr[0]
-                combo = "'" + str(ttl) + "'"+ "," +"'"+ str(rtt) + "'"+ "," +"'"+ str(ipaddr) + "'"+ "," +"'"+ str(hostname) + "'"
+                combo = "'" + str(ttl) + "'"+ "," +"'"+ str(rtt) + "'"+ "," +"'"+ str(ipaddr) + "'"+ "," +"'"+ str(host_name) + "'"
                 # types = 3
                 if types == 11:
 
@@ -178,7 +178,8 @@ def get_route(hostname):
                     # You should add your responses to your lists here and return your list if your destination IP is met
                     # print(" Inside types 0")
                     # rtt = (timeReceived - timeSent) * 1000
-                    if destAddr == host_name:
+                    # print(" comparison " + str(destAddr) + " - " + str(ipaddr) )
+                    if destAddr == ipaddr:
                         # tracelist1.append(ttl)
                         # tracelist1.append(rtt)
                         # tracelist1.append(host_name)
@@ -186,15 +187,15 @@ def get_route(hostname):
                         tracelist1.append(combo)
                         tracelist2.append(tracelist1)
                         tracelist1 = []
-                    else:
-                        # print( " else ")
-                        # tracelist1.append(ttl)
-                        # tracelist1.append(rtt)
-                        # tracelist1.append(host_name)
-                        # tracelist1.append(ipaddr)
-                        tracelist1.append(combo)
-                        tracelist2.append(tracelist1)
-                        tracelist1 = []
+                    # else:
+                    #     # print( " else ")
+                    #     # tracelist1.append(ttl)
+                    #     # tracelist1.append(rtt)
+                    #     # tracelist1.append(host_name)
+                    #     # tracelist1.append(ipaddr)
+                    #     tracelist1.append(combo)
+                    #     tracelist2.append(tracelist1)
+                    #     tracelist1 = []
                     # Fill in end
 
                 else:
@@ -214,6 +215,6 @@ def get_route(hostname):
     return tracelist2
     # print(str(tracelist2))
 
-if __name__ == '__main__':
-    ret_str = get_route("www.google.com")
-    # print(" output " + str(ret_str))
+# if __name__ == '__main__':
+#     ret_str = get_route("www.google.com")
+#     # print(" output " + str(ret_str))
