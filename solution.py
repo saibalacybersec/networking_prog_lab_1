@@ -145,21 +145,21 @@ def get_route(hostname):
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     # Fill in start
                     # You should add your responses to your lists here
-                    tracelist1.add(ttl)
-                    tracelist1.add(rtt)
-                    tracelist1.add(host_name)
-                    tracelist1.add(ipaddr)
-                    tracelist2.add(tracelist1)
+                    tracelist1.append(ttl)
+                    tracelist1.append(rtt)
+                    tracelist1.append(host_name)
+                    tracelist1.append(ipaddr)
+                    tracelist2.append(tracelist1)
                     tracelist1 = []
                     # Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    tracelist1.add(ttl)
-                    tracelist1.add(rtt)
-                    tracelist1.add(host_name)
-                    tracelist1.add(ipaddr)
-                    tracelist2.add(tracelist1)
+                    tracelist1.append(ttl)
+                    tracelist1.append(rtt)
+                    tracelist1.append(host_name)
+                    tracelist1.append(ipaddr)
+                    tracelist2.append(tracelist1)
                     tracelist1 = []
                     # Fill in start
                     # You should add your responses to your lists here
