@@ -129,6 +129,7 @@ def get_route(hostname):
                 # Fill in end
 
                 try:  # try to fetch the hostname
+                    print(" addr[0]" + str(addr[0]))
                 # Fill in start
                     host_name = gethostbyaddr(addr[0])
                     # host_name = host_name[0]
