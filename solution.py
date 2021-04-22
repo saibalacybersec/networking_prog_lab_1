@@ -211,7 +211,6 @@ def get_route(hostname):
 
     # print(str(tracelist2))
 
-
 # if __name__ == '__main__':
 #     ret_str = get_route("www.google.com")
 #     print(" output " + str(ret_str))
