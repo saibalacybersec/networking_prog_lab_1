@@ -179,14 +179,10 @@ def get_route(hostname):
                         tracelist1 = [str(ttl), str(rtt), str(ipaddr), str(host_name)]
                         tracelist2.append(tracelist1)
                         tracelist1 = []
-                    # else:
-                        # tracelist1.append(ttl)
-                        # tracelist1.append(rtt)
-                        # tracelist1.append(host_name)
-                        # tracelist1.append(ipaddr)
-                        # tracelist1.append(combo)
-                        # tracelist2.append(tracelist1)
-                        # tracelist1 = []
+                    else:
+                        tracelist1 = [str(ttl), str(rtt), str(ipaddr), str(hostname)]
+                        tracelist2.append(tracelist1)
+                        tracelist1 = []
                     # Fill in end
 
                 else:
