@@ -143,6 +143,7 @@ def get_route(hostname):
                 combo = "'" + str(ttl) + "'"+ "," +"'"+ str(rtt) + "'"+ "," +"'"+ str(host_name) + "'"+ "," +"'"+ str(ipaddr) + "'"
                 # types = 3
                 if types == 11:
+
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     # Fill in start
@@ -193,7 +194,7 @@ def get_route(hostname):
                         # tracelist1.append(ipaddr)
                         tracelist1.append(combo)
                         tracelist2.append(tracelist1)
-                        # tracelist1 = []
+                        tracelist1 = []
                     # Fill in end
 
                 else:
@@ -204,11 +205,12 @@ def get_route(hostname):
                     tracelist1 = []
                 # If there is an exception/error to your if statements, you should append that to your list here
                 # Fill in end
-                return tracelist2
+
                 break
+
             finally:
                 mySocket.close()
-
+    return tracelist2
     # print(str(tracelist2))
 
 # if __name__ == '__main__':
