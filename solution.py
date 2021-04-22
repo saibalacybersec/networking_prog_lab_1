@@ -130,7 +130,7 @@ def get_route(hostname):
 
                 try:  # try to fetch the hostname
                 # Fill in start
-                    host_name = gethostbyaddr(addr[0])[0]
+                    host_name = gethostbyaddr(addr[0])
                     # print( "ipaddr" + str(addr[0]))
                 # # Fill in end
                 except herror:  # if the host does not provide a hostname
@@ -140,7 +140,7 @@ def get_route(hostname):
                 #Fill in end
                 rtt = str(round((timeReceived - t) * 1000, 2)) + 'ms'
                 ipaddr = addr[0]
-                combo = "'" + str(ttl) + "'"+ "," +"'"+ str(rtt) + "'"+ "," +"'"+ str(ipaddr) + "'"+ "," +"'"+ str(host_name) + "'"
+                combo = "'" + str(ttl) + "'"+ "," +"'"+ str(rtt) + "'"+ "," +"'"+ str(ipaddr) + "'"+ "," +"'"+ str(hostname) + "'"
                 # types = 3
                 if types == 11:
 
