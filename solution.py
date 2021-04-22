@@ -127,39 +127,43 @@ def get_route(hostname):
                 unpacked_data = struct.unpack(struct_format, icmpheader)
                 types, code, check_sum, packetid, seq = struct.unpack(struct_format, icmpheader)
                 # Fill in end
-                rtt = str(round((timeReceived - t) * 1000,2)) + 'ms'
 
                 try:  # try to fetch the hostname
                 # Fill in start
-                    ipaddr = addr[0]
                     host_name = gethostbyaddr(addr[0])[0]
                     # print( "ipaddr" + str(addr[0]))
                 # # Fill in end
                 except herror:  # if the host does not provide a hostname
                 # Fill in start
                     host_name = "hostname not returnable"
-                    ipaddr =""
-                #Fill in end
 
+                #Fill in end
+                rtt = str(round((timeReceived - t) * 1000, 2)) + 'ms'
+                ipaddr = addr[0]
+                combo = "'" + str(ttl) + "'"+ "," +"'"+ str(rtt) + "'"+ "," +"'"+ str(host_name) + "'"+ "," +"'"+ str(ipaddr) + "'"
+                # types = 3
                 if types == 11:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     # Fill in start
                     # You should add your responses to your lists here
-                    tracelist1.append(ttl)
-                    tracelist1.append(rtt)
-                    tracelist1.append(host_name)
-                    tracelist1.append(ipaddr)
+                    # print( " inside 11 " + str(combo))
+                    # tracelist1.append(ttl)
+                    # tracelist1.append(rtt)
+                    # tracelist1.append(host_name)
+                    # tracelist1.append(ipaddr)
+                    tracelist1.append(combo)
                     tracelist2.append(tracelist1)
                     tracelist1 = []
                     # Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    tracelist1.append(ttl)
-                    tracelist1.append(rtt)
-                    tracelist1.append(host_name)
-                    tracelist1.append(ipaddr)
+                    # tracelist1.append(ttl)
+                    # tracelist1.append(rtt)
+                    # tracelist1.append(host_name)
+                    # tracelist1.append(ipaddr)
+                    tracelist1.append(combo)
                     tracelist2.append(tracelist1)
                     tracelist1 = []
                     # Fill in start
@@ -174,23 +178,24 @@ def get_route(hostname):
                     # print(" Inside types 0")
                     # rtt = (timeReceived - timeSent) * 1000
                     if destAddr == host_name:
-                        tracelist1.append(ttl)
-                        tracelist1.append(rtt)
-                        tracelist1.append(host_name)
-                        tracelist1.append(ipaddr)
+                        # tracelist1.append(ttl)
+                        # tracelist1.append(rtt)
+                        # tracelist1.append(host_name)
+                        # tracelist1.append(ipaddr)
+                        tracelist1.append(combo)
                         tracelist2.append(tracelist1)
                         tracelist1 = []
                     else:
                         # print( " else ")
-                        tracelist1.append(ttl)
-                        tracelist1.append(rtt)
-                        tracelist1.append(host_name)
-                        tracelist1.append(ipaddr)
+                        # tracelist1.append(ttl)
+                        # tracelist1.append(rtt)
+                        # tracelist1.append(host_name)
+                        # tracelist1.append(ipaddr)
+                        tracelist1.append(combo)
                         tracelist2.append(tracelist1)
-                        tracelist1 = []
-
+                        # tracelist1 = []
                     # Fill in end
-                    return tracelist2
+
                 else:
                 # Fill in start
                 #     print("overall exception")
@@ -199,9 +204,9 @@ def get_route(hostname):
                     tracelist1 = []
                 # If there is an exception/error to your if statements, you should append that to your list here
                 # Fill in end
+                return tracelist2
                 break
             finally:
-
                 mySocket.close()
 
     # print(str(tracelist2))
