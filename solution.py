@@ -130,7 +130,8 @@ def get_route(hostname):
 
                 try:  # try to fetch the hostname
                 # Fill in start
-                    host_name = gethostbyaddr(addr[0])[0]
+                    host_name = gethostbyaddr(addr[0])
+                    # host_name = host_name[0]
                     # print( "ipaddr" + str(addr[0]))
                 # # Fill in end
                 except herror:  # if the host does not provide a hostname
@@ -214,7 +215,7 @@ def get_route(hostname):
     print(str(tracelist2))
     return tracelist2
     # print(str(tracelist2))
-
+#
 # if __name__ == '__main__':
 #     ret_str = get_route("www.google.com")
 #     # print(" output " + str(ret_str))
